@@ -78,23 +78,40 @@ public class IndexBB {
                 double totalRate = (Double) o.get("totalRate");
                 String title = (String) o.get("title");
                 
-                invoices.add(new Invoice(dueDate, invoiceDate, id, paid, clientName, totalRate, title));
+                invoices.add(new Invoice(dueDate, invoiceDate, id, paid,
+                        clientName, totalRate, title));
             }
         }
         catch (Exception e){
-            Logger.getAnonymousLogger().log(Level.INFO, "FAIL" + e);
+            Logger.getAnonymousLogger().log(Level.INFO, "FAIL{0}", e);
         }
     }
     
-    private JSONArray readJSONArrayFromUrl(String url) throws IOException, JSONException, ParseException {
-        InputStream stream = new URL(url).openStream();
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(stream, Charset.forName("UTF-8")));
-            String jsonText = readAll(reader);
-            JSONArray array = (JSONArray)new JSONParser().parse(jsonText);
-            return array;
-        } finally {
-            stream.close();
+    private JSONArray readJSONArrayFromUrl(String urlString) throws IOException, JSONException, ParseException {
+        String jsonString = retrieveJSONString(urlString);
+        JSONArray array = (JSONArray)new JSONParser().parse(jsonString);
+        return array;
+    }
+    
+    private String retrieveJSONString(String urlString) throws MalformedURLException, IOException{
+        URL url = new URL(urlString);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Accept", "application/json");
+        
+        BufferedReader in = new BufferedReader(new InputStreamReader(
+                connection.getInputStream()));
+        String inputLine = readAll(in);
+        
+        return inputLine;
+    }
+    
+    private String readAll(Reader reader) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int next;
+        while ((next = reader.read()) != -1) {
+            sb.append((char) next);
         }
+        return sb.toString();
     }
 }
