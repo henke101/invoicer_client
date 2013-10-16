@@ -1,12 +1,56 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-       #{indexBB.text}
+        <h:form>
+            <div class="invoices-table">
+                <h:dataTable var="i" value="#{index.invoices}">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText  value="Invoice title"/>
+                        </f:facet>
+                        <h:outputText value="#{i.title}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText  value="Client name"/>
+                        </f:facet>
+                        <h:outputText value="#{i.clientName}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText  value="Invoice date"/> 
+                        </f:facet>
+                        <h:outputText value="#{i.invoiceDate}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText  value="Due date"/>
+                        </f:facet>
+                        <h:outputText value="#{i.dueDate}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText  value="Total rate"/>
+                        </f:facet>
+                        <h:outputText value="#{i.totalRate}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText  value="Action"/>
+                        </f:facet>
+                        <h:commandButton  
+                            action="#{index.payInvoice(i.id)}" value="Pay"/>
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </h:form>
     </h:body>
 </html>
 
