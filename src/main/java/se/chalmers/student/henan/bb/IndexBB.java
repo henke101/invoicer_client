@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -38,19 +39,20 @@ import se.chalmers.student.henan.model.Invoice;
 @RequestScoped
 public class IndexBB {
     
+    private static final String INVOICES_URL = "http://localhost:9000/invoices";
     private List<Invoice> invoices;
     
     public IndexBB(){
-        
+    }
+    
+    public List<Invoice> getInvoices(){
+        return invoices;
     }
     public void payInvoice(Long id){
         try{
-            URL url = new URL("http://localhost:9000/invoices/" + id + "/paid");
+            URL url = new URL(INVOICES_URL + "/" + id + "/paid");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoOutput(true);
             connection.setRequestMethod("PUT");
-            OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-            out.close();
             connection.getInputStream();
         }
         catch (Exception e){
@@ -58,23 +60,11 @@ public class IndexBB {
         }
     }
     
-    public List<Invoice> getInvoices(){
-        return invoices;
-    }
-    
-    private String readAll(Reader reader) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        int next;
-        while ((next = reader.read()) != -1) {
-            sb.append((char) next);
-        }
-        return sb.toString();
-    }
     @Inject
     private void createInvoicesFromJSON(){
         this.invoices = new ArrayList<Invoice>();
         try{
-            JSONArray arr = readJSONArrayFromUrl("http://localhost:9000/invoices/json");
+            JSONArray arr = readJSONArrayFromUrl(INVOICES_URL);
             Iterator i = arr.iterator();
             
             while(i.hasNext()){
