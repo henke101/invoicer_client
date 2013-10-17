@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package se.chalmers.student.henan.bb;
 
 import java.io.BufferedReader;
@@ -50,6 +46,7 @@ public class IndexBB {
         return invoices;
     }
     public void payInvoice(Long id){
+       // Pay invoice by sending a PUT(should be HEAD?) request to the url with the id of the invoice
         try{
             URL url = new URL(BASE_URL + "/invoices/" + id + "/paid");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -61,6 +58,7 @@ public class IndexBB {
         }
     }
     
+    //Creates an Invoice java object from a JSONArray
     @Inject
     public void createInvoicesFromJSON(){
         this.invoices = new ArrayList<Invoice>();
@@ -68,6 +66,8 @@ public class IndexBB {
             JSONArray arr = readJSONArrayFromUrl(BASE_URL + "/invoices/" + CLIENT);
             Iterator i = arr.iterator();
             
+            //Parses the fields for the each JSONObject in the array and
+            //adds it to the list
             while(i.hasNext()){
                 JSONObject o = (JSONObject) i.next();
                 String dueDate = (String) o.get("dueDate");
@@ -81,7 +81,6 @@ public class IndexBB {
                 JSONObject bankAccount= (JSONObject)o.get("bankAccount");
                 String accountType = (String) bankAccount.get("accountType");
                 String accountNumber = (String) bankAccount.get("accountNumber");
-                
                 
                 invoices.add(new Invoice(dueDate, invoiceDate, id, paid,
                         clientName, totalRate, title, accountType, accountNumber));
@@ -98,6 +97,7 @@ public class IndexBB {
         return jsonArray;
     }
     
+    
     private String retrieveJSONString(String urlString) throws MalformedURLException, IOException{
         URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -110,6 +110,7 @@ public class IndexBB {
         
         return inputLine;
     }
+    
     
     private String readAll(Reader reader) throws IOException {
         StringBuilder sb = new StringBuilder();

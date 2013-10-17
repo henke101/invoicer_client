@@ -1,14 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package se.chalmers.student.henan.model;
 
 
 /**
- *
+ * Simple model representing an Invoice
  * @author HenrikAndersson
- */
+ * */
 public class Invoice {
     private String dueDate;
     private String invoiceDate;
