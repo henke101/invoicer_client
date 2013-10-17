@@ -39,7 +39,8 @@ import se.chalmers.student.henan.model.Invoice;
 @RequestScoped
 public class IndexBB {
     
-    private static final String INVOICES_URL = "http://localhost:9000/invoices";
+    private static final String BASE_URL = "http://localhost:9000";
+    private static final String CLIENT = "chalmers";
     private List<Invoice> invoices;
     
     public IndexBB(){
@@ -50,7 +51,7 @@ public class IndexBB {
     }
     public void payInvoice(Long id){
         try{
-            URL url = new URL(INVOICES_URL + "/" + id + "/paid");
+            URL url = new URL(BASE_URL + "/invoices/" + id + "/paid");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("PUT");
             connection.getInputStream();
@@ -61,10 +62,10 @@ public class IndexBB {
     }
     
     @Inject
-    private void createInvoicesFromJSON(){
+    public void createInvoicesFromJSON(){
         this.invoices = new ArrayList<Invoice>();
         try{
-            JSONArray arr = readJSONArrayFromUrl(INVOICES_URL);
+            JSONArray arr = readJSONArrayFromUrl(BASE_URL + "/invoices/" + CLIENT);
             Iterator i = arr.iterator();
             
             while(i.hasNext()){
@@ -77,9 +78,13 @@ public class IndexBB {
                 String clientName = (String) client.get("name");
                 double totalRate = (Double) o.get("totalRate");
                 String title = (String) o.get("title");
+                JSONObject bankAccount= (JSONObject)o.get("bankAccount");
+                String accountType = (String) bankAccount.get("accountType");
+                String accountNumber = (String) bankAccount.get("accountNumber");
+                
                 
                 invoices.add(new Invoice(dueDate, invoiceDate, id, paid,
-                        clientName, totalRate, title));
+                        clientName, totalRate, title, accountType, accountNumber));
             }
         }
         catch (Exception e){
@@ -89,8 +94,8 @@ public class IndexBB {
     
     private JSONArray readJSONArrayFromUrl(String urlString) throws IOException, JSONException, ParseException {
         String jsonString = retrieveJSONString(urlString);
-        JSONArray array = (JSONArray)new JSONParser().parse(jsonString);
-        return array;
+        JSONArray jsonArray = (JSONArray)new JSONParser().parse(jsonString);
+        return jsonArray;
     }
     
     private String retrieveJSONString(String urlString) throws MalformedURLException, IOException{

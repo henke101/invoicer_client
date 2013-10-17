@@ -4,7 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Pripps Invoice Payer</title>
     </h:head>
     <h:body>
         <h:form>
@@ -34,13 +34,25 @@
                         </f:facet>
                         <h:outputText value="#{i.dueDate}"/>
                     </h:column>
+                       <h:column>
+                        <f:facet name="header">
+                            <h:outputText  value="Account type"/>
+                        </f:facet>
+                        <h:outputText value="#{i.accountType}"/>
+                    </h:column>
+                       <h:column>
+                        <f:facet name="header">
+                            <h:outputText  value="Account number"/>
+                        </f:facet>
+                        <h:outputText value="#{i.accountNumber}"/>
+                    </h:column>
                     <h:column>
                         <f:facet name="header">
                             <h:outputText  value="Total rate"/>
                         </f:facet>
                         <h:outputText value="#{i.totalRate}"/>
                     </h:column>
-                     <h:column>
+                    <h:column>
                         <f:facet name="header">
                             <h:outputText  value="Paid?"/>
                         </f:facet>
@@ -50,12 +62,11 @@
                         <f:facet name="header">
                             <h:outputText  value="Action"/>
                         </f:facet>
-                        <h:commandButton  
-                            action="#{index.payInvoice(i.id)}" value="Pay"/>
+                        <h:commandButton  action="#{index.createInvoicesFromJSON}"
+                            actionListener="#{index.payInvoice(i.id)}" value="Pay"/>
                     </h:column>
                 </h:dataTable>
             </div>
         </h:form>
     </h:body>
 </html>
-
