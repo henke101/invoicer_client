@@ -40,7 +40,7 @@ import se.chalmers.student.henan.model.Invoice;
 public class IndexBB {
     
     private static final String BASE_URL = "http://localhost:9000";
-    private static final String CLIENT = "chalmers";
+    private static final String CLIENT = "pripps";
     private List<Invoice> invoices;
     
     public IndexBB(){
