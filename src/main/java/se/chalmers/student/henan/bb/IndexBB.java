@@ -50,7 +50,7 @@ public class IndexBB {
         try{
             URL url = new URL(BASE_URL + "/invoices/" + id + "/paid");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("PUT");
+            connection.setRequestMethod("HEAD");
             connection.getInputStream();
         }
         catch (Exception e){
