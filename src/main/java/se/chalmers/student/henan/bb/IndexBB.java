@@ -63,7 +63,7 @@ public class IndexBB {
     public void createInvoicesFromJSON(){
         this.invoices = new ArrayList<Invoice>();
         try{
-            JSONArray arr = readJSONArrayFromUrl(BASE_URL + "/invoices/" + CLIENT);
+            JSONArray arr = readJSONArrayFromUrl(BASE_URL + "/clients/" + CLIENT + "/invoices");
             Iterator i = arr.iterator();
             
             //Parses the fields for the each JSONObject in the array and
@@ -87,7 +87,7 @@ public class IndexBB {
             }
         }
         catch (Exception e){
-            Logger.getAnonymousLogger().log(Level.INFO, "FAIL{0}", e);
+            Logger.getAnonymousLogger().log(Level.INFO, "FAIL" + e);
         }
     }
     
@@ -107,7 +107,7 @@ public class IndexBB {
         BufferedReader in = new BufferedReader(new InputStreamReader(
                 connection.getInputStream()));
         String inputLine = readAll(in);
-        
+        Logger.getAnonymousLogger().log(Level.INFO, inputLine);
         return inputLine;
     }
     
