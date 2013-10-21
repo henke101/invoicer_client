@@ -15,9 +15,10 @@ public class Invoice {
     private String title;
     private String accountType;
     private String accountNumber;
+    private String ownerName;
     
     public Invoice(String dueDate, String invoiceDate, Long id, boolean paid,
-            String clientName, double totalRate, String title, String accountType, String accountNumber){
+            String clientName, double totalRate, String title, String accountType, String accountNumber, String ownerName){
         this.dueDate = dueDate;
         this.invoiceDate = invoiceDate;
         this.id = id;
@@ -27,6 +28,7 @@ public class Invoice {
         this.title = title;
         this.accountNumber = accountNumber;
         this.accountType = accountType;
+        this.ownerName = ownerName;
     }
      public String getAccountType() {
         return accountType;
@@ -67,6 +69,9 @@ public class Invoice {
     public Long getId() {
         return id;
     }  
+    public String getOwnerName(){
+        return ownerName;
+    }
     
 }
 

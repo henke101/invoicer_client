@@ -76,6 +76,8 @@ public class IndexBB {
                 boolean paid = (Boolean) o.get("paid");
                 JSONObject client = (JSONObject)o.get("client");
                 String clientName = (String) client.get("name");
+                JSONObject owner = (JSONObject)o.get("owner");
+                String ownerName = (String) owner.get("username");
                 double totalRate = (Double) o.get("totalRate");
                 String title = (String) o.get("title");
                 JSONObject bankAccount= (JSONObject)o.get("bankAccount");
@@ -83,7 +85,7 @@ public class IndexBB {
                 String accountNumber = (String) bankAccount.get("accountNumber");
                 
                 invoices.add(new Invoice(dueDate, invoiceDate, id, paid,
-                        clientName, totalRate, title, accountType, accountNumber));
+                        clientName, totalRate, title, accountType, accountNumber, ownerName));
             }
         }
         catch (Exception e){
